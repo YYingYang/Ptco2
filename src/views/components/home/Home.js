@@ -1,24 +1,25 @@
 class Home {
-  static render() {
+  constructor() {
     this.key = "c4d79d0d1e50bf8bc86b7afbd240e4df";
-    Home.loadMovie();
+  }
+
+  render() {
+    this.loadMovie();
     return `<br />
     <h2 style="display: flex; justify-content: space-around">
       Selezione dei film
     </h2>
     <!-- search bar and button -->
-    <form class="d-flex">
+    <form class="d-flex" id="search-form">
       <input
         id="search"
         class="form-control me-2"
-        value=""
+        required
         placeholder="Search"
         aria-label="Search"
       />
       <button
         class="btn btn-outline-success"
-        type="button"
-        onclick="app.search()"
       >
         Search
       </button>
@@ -28,7 +29,7 @@ class Home {
     <div id="list" class="row"></div>`;
   }
 
-  static loadMovie() {
+  loadMovie() {
     //request to the site for the movies data/list
     const req = fetch(
       `https://api.themoviedb.org/3/movie/popular?api_key=${this.key}&language=en&page=1`
@@ -45,11 +46,18 @@ class Home {
               data.results[i].id
             )
           );
-        Home.displayCard(this.list);
+        this.displayCard(this.list);
       });
   }
+
+  addActionListener() {
+    document
+      .getElementById("search-form")
+      .addEventListener("submit", this.search.bind(this));
+  }
+
   // insert card with movie data
-  static displayCard(list) {
+  displayCard(list) {
     let str = "";
     for (let i = 0; i < list.length; i++)
       str += `<div class="col-sm"><div class="card" >
@@ -68,8 +76,8 @@ class Home {
   }
 
   // craete a list of movie=> result of search by title
-  static search() {
-    console.log("1")
+  search(event) {
+    event.preventDefault();
     let str = document.getElementById("search").value;
     let temp = [];
     for (let i = 0; i < this.list.length; i++) {
@@ -80,9 +88,9 @@ class Home {
       document.getElementById("list").innerHTML = "Nothing found";
     else {
       document.getElementById("list").innerHTML = "";
-      Home.displayCard(temp);
+      this.displayCard(temp);
     }
-    document.getElementById("search").value = "";
+    // document.getElementById("search").value = "";
   }
 }
 
