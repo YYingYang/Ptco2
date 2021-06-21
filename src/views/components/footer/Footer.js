@@ -1,5 +1,5 @@
 class Footer {
-  static render() {
+  render() {
     return `<footer class="text-center text-white" style="background-color: #f1f1f1;">
     <div class="container pt-4">
         <img class="englogo" src = "./src/assets/eng.png">

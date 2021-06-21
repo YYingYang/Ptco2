@@ -1,5 +1,5 @@
 class Navbar {
-  static render() {
+  render() {
     return `<header>
     <div class="container-fluid">
       <img src="./src/assets/logo.png" alt="" class="logo" />
