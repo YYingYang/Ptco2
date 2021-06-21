@@ -1,0 +1,21 @@
+.container-fluid p {
+  height: 80px;
+  font-size: 50px;
+  color: aqua;
+}
+
+.logo {
+  margin-top: 0.5rem;
+  float: left;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 100%;
+}
+
+.btn-secondary {
+  float: right;
+  width: 8rem;
+  height: 3rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}

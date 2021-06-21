@@ -1,0 +1,43 @@
+header div.container-fluid {
+  text-align: center;
+  font-weight: 600;
+  background-color: black;
+  width: 100%;
+}
+
+.card-body {
+  justify-content: space-between;
+  flex-direction: column;
+  display: flex;
+}
+
+.btn-holder {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.d-flex {
+  width: 30rem;
+  margin: auto;
+}
+
+.card {
+  min-width: 15rem;
+  width: 18rem;
+  max-height: 100rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.row {
+  display: flex;
+  justify-self: center;
+  margin: 0;
+}
+
+.col-sm {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
