@@ -8,6 +8,9 @@ import "./App.css";
 
 class App {
   constructor() {
+    this.home = new Home();
+    this.navbar = new Navbar();
+    this.footer = new Footer();
     this.init();
   }
 
@@ -39,7 +42,9 @@ class App {
    * dove è definito il layout generale dell'applicazione
    */
   render() {
-    this.app.innerHTML = Navbar.render() + Home.render() + Footer.render();
+    this.app.innerHTML =
+      this.navbar.render() + this.home.render() + this.footer.render();
+    this.home.addActionListener();
   }
 }
 
