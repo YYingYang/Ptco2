@@ -6,27 +6,21 @@ class Home {
   render() {
     this.loadMovie();
     return `<br />
-    <h2 style="display: flex; justify-content: space-around">
+    <h1 class="center-text" id="title">
       Selezione dei film
-    </h2>
+    </h1>
     <!-- search bar and button -->
     <form class="d-flex" id="search-form">
-      <input
-        id="search"
-        class="form-control me-2"
-        required
-        placeholder="Search"
-        aria-label="Search"
-      />
-      <button
-        class="btn btn-outline-success"
-      >
-        Search
-      </button>
+      ${this.showSearch()}
     </form>
     <br />
     <!-- list of film / result of reseach -->
     <div id="list" class="row"></div>`;
+  }
+
+  showSearch(){
+    return `<input id="search" class="form-control me-2" placeholder="Search" aria-label="Search"/>
+    <button class="btn btn-outline-success">Search</button>`
   }
 
   loadMovie() {
@@ -37,15 +31,18 @@ class Home {
       .then((results) => results.json())
       .then((data) => {
         this.list = [];
-        for (let i = 0; i < data.results.length; i++)
+        for (var i = 0; i < data.results.length; i++) {
           this.list.push(
             new Movie(
               data.results[i].original_title,
               data.results[i].overview,
               data.results[i].poster_path,
-              data.results[i].id
+              data.results[i].id,
+              data.results[i].release_date,
+              i
             )
           );
+        }
         this.displayCard(this.list);
       });
   }
@@ -54,6 +51,21 @@ class Home {
     document
       .getElementById("search-form")
       .addEventListener("submit", this.search.bind(this));
+    const that =this;
+    console.log(that)
+    let temp = document.getElementById("list").children.length;
+    for (let i = 0; i < temp; i++)
+      document
+        .getElementById(`detailsBtn${i}`)
+        .addEventListener("click", this.details.bind(this));
+    window.onpopstate = function (event) {
+      alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+      if(JSON.stringify(event.state)==="null"){
+        that.displayCard(that.list)
+        document.getElementById("search-form").innerHTML = that.showSearch();
+        document.getElementById("title").innerHTML = "Selezione Film";
+      }
+    };
   }
 
   // insert card with movie data
@@ -68,14 +80,17 @@ class Home {
         <h5 class="card-title">${list[i].title}</h5>
         <p class="card-text">${list[i].reduceChracter()}</p>
         <div class="btn-holder">
-        <a href="#" class="btn btn-primary">Details</a>
+        <button id="detailsBtn${i}" class="btn btn-primary" value="${
+        list[i].pos
+      }">Details</button>
         </div>
       </div>
       </div></div>`;
     document.getElementById("list").innerHTML = str;
+    this.addActionListener();
   }
 
-  // craete a list of movie=> result of search by title
+  // craete a list of movie => result of search by title
   search(event) {
     event.preventDefault();
     let str = document.getElementById("search").value;
@@ -90,17 +105,42 @@ class Home {
       document.getElementById("list").innerHTML = "";
       this.displayCard(temp);
     }
-    // document.getElementById("search").value = "";
+    document.getElementById("search").value = "";
+  }
+
+  details(event) {
+    let pos = event.target.value;
+    const movie = this.list[pos];
+    
+    history.pushState(
+      { page: 1 },
+      "title 1",
+      `/details/?Title=${movie.title}Film_id=${movie.id}`
+    );
+    this.displayDetails(movie);
+  }
+
+  displayDetails(movie) {
+    let str = `<div class="container-fluid">
+    <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.img} class="float-left" alt="...">
+    <span>
+      <h3>(${movie.date})${movie.description}</h3>
+    </span>
+    <div/>`;
+    document.getElementById("search-form").innerHTML = "";
+    document.getElementById("title").innerHTML = movie.title;
+    document.getElementById("list").innerHTML = str;
   }
 }
 
 class Movie {
-  constructor(title, description, img, id, date) {
+  constructor(title, description, img, id, date, pos) {
     this.title = title;
     this.description = description;
     this.img = img;
     this.id = id;
     this.date = date;
+    this.pos = pos;
   }
   movieToString() {
     let str =
