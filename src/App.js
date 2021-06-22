@@ -44,7 +44,7 @@ class App {
   render() {
     this.app.innerHTML =
       this.navbar.render() + this.home.render() + this.footer.render();
-    this.home.addActionListener();
+    //this.home.addActionListener();
   }
 }
 
