@@ -21,7 +21,7 @@ header div.container-fluid {
   margin: auto;
 }
 
-.card {
+#list .card {
   min-width: 15rem;
   width: 18rem;
   max-height: 100rem;
@@ -42,7 +42,7 @@ header div.container-fluid {
   width: 100%;
 }
 
-.center-text{
+.center-text {
   display: flex;
   justify-content: space-around;
 }
