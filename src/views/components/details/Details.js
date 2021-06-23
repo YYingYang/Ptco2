@@ -26,19 +26,23 @@ class Details {
         document.getElementById(
           "home-container"
         ).innerHTML = `<div class="center-text">
-        <div class="card mb-3" style="max-width:50%">
-          <div class="row no-gutters">
-            <div class="col-md-4">
-              <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${this.img} class="card-img" alt="...">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">${this.title}</h5>
-                <p class="card-text">${this.description}</p>
+          <div class="card mb-3" style="max-width:50%">
+            <div class="row no-gutters">
+              <div class="col-md-4">
+                <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${this.img} class="img-fluid" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">${this.title}</h5>
+                  <p class="card-text">${this.description}</p>
+                  <div class="btn-holder">
+                    <button id="backBtn" class="btn btn-primary" value="">Back</button>
+                    <button id="trailerBtn" class="btn btn-primary" value="">Trailer</button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>`;
       });
     //   console.log(this)
