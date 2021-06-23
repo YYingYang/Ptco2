@@ -2,6 +2,7 @@
 import Navbar from "./views/components/navbar/Navbar";
 import Home from "./views/components/home/Home";
 import Footer from "./views/components/footer/Footer";
+import Details from "./views/components/details/Details";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -11,6 +12,7 @@ class App {
     this.home = new Home();
     this.navbar = new Navbar();
     this.footer = new Footer();
+    this.details = new Details();
     this.init();
   }
 
@@ -43,8 +45,20 @@ class App {
    */
   render() {
     this.app.innerHTML =
-      this.navbar.render() + this.home.render() + this.footer.render();
-    //this.home.addActionListener();
+      this.navbar.render() +
+      '<div id="home-container">' +
+      this.home.render() +
+      "</div>" +
+      this.footer.render();
+    window.onpopstate = (event) => {
+      if (document.location.pathname.split("/")[1] === "") {
+        document.getElementById("home-container").innerHTML =
+          this.home.render();
+      }
+      if (document.location.pathname.split("/")[1] === "details") {
+        this.details.render();
+      }
+    };
   }
 }
 
