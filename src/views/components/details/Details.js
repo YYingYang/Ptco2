@@ -23,15 +23,25 @@ class Details {
       .then((data) => {
         // console.log(data);
         this.videoId = data.results[0].key;
-        document.getElementById("home-container").innerHTML = `<div><h1>${this.title}</h1></div><div class="container-fluid">
-        <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${this.img} class="float-left" alt="...">
-        <span>
-          <h3>${this.description}</h3>
-        </span>
-        <div/>`
+        document.getElementById(
+          "home-container"
+        ).innerHTML = `<div class="center-text">
+        <div class="card mb-3" style="max-width:50%">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${this.img} class="card-img" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">${this.title}</h5>
+                <p class="card-text">${this.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>`;
       });
-      console.log(this)
-     
+    //   console.log(this)
   }
 }
 export default Details;
