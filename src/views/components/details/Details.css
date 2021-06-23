@@ -1,1 +1,10 @@
+.col-md-8 {
+  display: flex;
+  justify-content: space-around;
+}
 
+.col-md-8 .btn-primary {
+  float: right;
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
