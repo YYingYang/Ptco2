@@ -51,10 +51,11 @@ class Home {
     document
       .getElementById("search-form")
       .addEventListener("submit", this.search.bind(this));
-
-    document
-      .getElementById(`detailsBtn`)
-      .addEventListener("click", this.showDetails.bind(this));
+      let temp = document.getElementById("list").children.length;
+      for (let i = 0; i < temp; i++)
+        document
+          .getElementById(`detailsBtn${i}`)
+          .addEventListener("click", this.showDetails.bind(this));
   }
 
   // insert card with movie data
@@ -69,8 +70,8 @@ class Home {
         <h5 class="card-title">${list[i].title}</h5>
         <p class="card-text">${list[i].reduceChracter()}</p>
         <div class="btn-holder">
-        <button id="detailsBtn" class="btn btn-primary" value="${
-          list[i].pos
+        <button id="detailsBtn${i}" class="btn btn-primary" value="${
+          list[i].id
         }">Details</button>
         </div>
       </div>
@@ -98,9 +99,8 @@ class Home {
   }
 
   showDetails(event) {
-    let pos = event.target.value;
-    const movie = this.list[pos];
-    history.pushState("details", "title 1", `/details/${movie.id}`);
+    let path = event.target.value;
+    history.pushState("details", "title 1", `/details/${path}`);
     window.dispatchEvent(new Event("popstate"));
   } 
 }
