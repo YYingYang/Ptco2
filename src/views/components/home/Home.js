@@ -18,9 +18,9 @@ class Home {
     <div id="list" class="row"></div>`;
   }
 
-  showSearch(){
+  showSearch() {
     return `<input id="search" class="form-control me-2" placeholder="Search" aria-label="Search"/>
-    <button class="btn btn-outline-success">Search</button>`
+    <button class="btn btn-outline-success">Search</button>`;
   }
 
   loadMovie() {
@@ -38,7 +38,6 @@ class Home {
               data.results[i].overview,
               data.results[i].poster_path,
               data.results[i].id,
-              data.results[i].release_date,
               i
             )
           );
@@ -47,25 +46,15 @@ class Home {
       });
   }
 
+  //  actionListener for button of details and search bar 
   addActionListener() {
     document
       .getElementById("search-form")
       .addEventListener("submit", this.search.bind(this));
-    const that =this;
-    console.log(that)
-    let temp = document.getElementById("list").children.length;
-    for (let i = 0; i < temp; i++)
-      document
-        .getElementById(`detailsBtn${i}`)
-        .addEventListener("click", this.details.bind(this));
-    window.onpopstate = function (event) {
-      alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-      if(JSON.stringify(event.state)==="null"){
-        that.displayCard(that.list)
-        document.getElementById("search-form").innerHTML = that.showSearch();
-        document.getElementById("title").innerHTML = "Selezione Film";
-      }
-    };
+
+    document
+      .getElementById(`detailsBtn`)
+      .addEventListener("click", this.showDetails.bind(this));
   }
 
   // insert card with movie data
@@ -80,9 +69,9 @@ class Home {
         <h5 class="card-title">${list[i].title}</h5>
         <p class="card-text">${list[i].reduceChracter()}</p>
         <div class="btn-holder">
-        <button id="detailsBtn${i}" class="btn btn-primary" value="${
-        list[i].pos
-      }">Details</button>
+        <button id="detailsBtn" class="btn btn-primary" value="${
+          list[i].pos
+        }">Details</button>
         </div>
       </div>
       </div></div>`;
@@ -108,38 +97,20 @@ class Home {
     document.getElementById("search").value = "";
   }
 
-  details(event) {
+  showDetails(event) {
     let pos = event.target.value;
     const movie = this.list[pos];
-    
-    history.pushState(
-      { page: 1 },
-      "title 1",
-      `/details/?Title=${movie.title}Film_id=${movie.id}`
-    );
-    this.displayDetails(movie);
-  }
-
-  displayDetails(movie) {
-    let str = `<div class="container-fluid">
-    <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${movie.img} class="float-left" alt="...">
-    <span>
-      <h3>(${movie.date})${movie.description}</h3>
-    </span>
-    <div/>`;
-    document.getElementById("search-form").innerHTML = "";
-    document.getElementById("title").innerHTML = movie.title;
-    document.getElementById("list").innerHTML = str;
-  }
+    history.pushState("details", "title 1", `/details/${movie.id}`);
+    window.dispatchEvent(new Event("popstate"));
+  } 
 }
 
 class Movie {
-  constructor(title, description, img, id, date, pos) {
+  constructor(title, description, img, id, pos) {
     this.title = title;
     this.description = description;
     this.img = img;
     this.id = id;
-    this.date = date;
     this.pos = pos;
   }
   movieToString() {
