@@ -5,23 +5,23 @@ class Details {
   render() {
     this.id = document.location.pathname.split("/")[2];
 
+    // get from site information about the movie you want know
     fetch(
       `https://api.themoviedb.org/3/movie/${this.id}?api_key=${this.key}&language=en`
     )
       .then((results) => results.json())
       .then((data) => {
-        // console.log(data);
         this.title = data.original_title;
         this.description = data.overview;
         this.img = data.poster_path;
-        // console.log(this);
       });
+
+    // get video of the movie(trailer) and add actionListener
     fetch(
       `https://api.themoviedb.org/3/movie/${this.id}/videos?api_key=${this.key}&language=en`
     )
       .then((results) => results.json())
       .then((data) => {
-        // console.log(data);
         this.videoId = data.results[0].key;
         document.getElementById(
           "home-container"
@@ -34,9 +34,9 @@ class Details {
               <div class="col-md-8">
                 <div class="card-body">
                   <h5 class="card-title">${this.title}</h5>
-                  <p class="card-text">${this.description}</p>
+                  <p class="card-text" id="descriptionContainer">${this.description}</p>
                   <div>
-                    <button id="backBtn" class="btn btn-primary" value="">Back</button>
+                    <button id="backBtn" class="btn btn-primary" >Back</button>
                     <button id="trailerBtn" style="float:right" class="btn btn-primary" value="">Trailer</button>
                   </div>
                 </div>
@@ -44,26 +44,34 @@ class Details {
             </div>
           </div>
         </div>`;
-      this.addActionListener();
+        this.addActionListener();
       });
   }
 
-  //  actionListener for button of details and search bar
+  //  actionListener for button back and trailer
   addActionListener() {
     document
       .getElementById("backBtn")
       .addEventListener("click", this.returnBack.bind(this));
     document
       .getElementById("trailerBtn")
-      .addEventListener("click", this.showDetails.bind(this));
+      .addEventListener("click", this.showTrailer.bind(this));
   }
 
-  returnBack(){
-    window.history.back()
+  // turn back to the home page
+  returnBack() {
+    window.history.back();
   }
-  
-  showDetails(){
 
+  // method display trailer
+  showTrailer() {
+    history.pushState("trailer", "title 1", `${location.pathname}/trailer`);
+    // window.dispatchEvent(new Event("popstate"));
+    document.getElementById(
+      "descriptionContainer"
+    ).innerHTML = `<div class="embed-responsive embed-responsive-16by9">
+      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${this.videoId}" allowfullscreen></iframe>
+    </div>`;
   }
 }
 export default Details;
