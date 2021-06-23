@@ -14,15 +14,6 @@ class Details {
         this.title = data.original_title;
         this.description = data.overview;
         this.img = data.poster_path;
-      });
-
-    // get video of the movie(trailer) and add actionListener
-    fetch(
-      `https://api.themoviedb.org/3/movie/${this.id}/videos?api_key=${this.key}&language=en`
-    )
-      .then((results) => results.json())
-      .then((data) => {
-        this.videoId = data.results[0].key;
         document.getElementById(
           "home-container"
         ).innerHTML = `<div class="center">
@@ -37,41 +28,53 @@ class Details {
                   <p class="card-text" id="descriptionContainer">${this.description}</p>
                   <div>
                     <button id="backBtn" class="btn btn-primary" >Back</button>
-                    <button id="trailerBtn" style="float:right" class="btn btn-primary" value="">Trailer</button>
+                    <button id="changeBtn" style="float:right" value="1" class="btn btn-primary" value="">Trailer</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>`;
+      });
+
+    // get video of the movie(trailer) and add actionListener
+    fetch(
+      `https://api.themoviedb.org/3/movie/${this.id}/videos?api_key=${this.key}&language=en`
+    )
+      .then((results) => results.json())
+      .then((data) => {
+        this.videoId = data.results[0].key;
         this.addActionListener();
       });
   }
 
   //  actionListener for button back and trailer
   addActionListener() {
-    document
-      .getElementById("backBtn")
-      .addEventListener("click", this.returnBack.bind(this));
-    document
-      .getElementById("trailerBtn")
-      .addEventListener("click", this.showTrailer.bind(this));
+    document.getElementById("backBtn").addEventListener("click", () => {
+      window.history.back();
+    });
+    document.getElementById("changeBtn").addEventListener("click", () => {
+      document.getElementById("changeBtn").value === "1"
+        ? this.renderTrailer()
+        : this.renderDescription();
+    });
   }
 
-  // turn back to the home page
-  returnBack() {
-    window.history.back();
-  }
-
-  // method display trailer
-  showTrailer() {
-    history.pushState("trailer", "title 1", `${location.pathname}/trailer`);
-    // window.dispatchEvent(new Event("popstate"));
+  renderTrailer() {
     document.getElementById(
       "descriptionContainer"
     ).innerHTML = `<div class="embed-responsive embed-responsive-16by9">
-      <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${this.videoId}" allowfullscreen></iframe>
-    </div>`;
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${this.videoId}" allowfullscreen></iframe>
+        </div>`;
+    document.getElementById("changeBtn").value = "2";
+    document.getElementById("changeBtn").innerHTML = "Description";
+  }
+
+  renderDescription() {
+    document.getElementById("descriptionContainer").innerHTML =
+      this.description;
+    document.getElementById("changeBtn").value = "1";
+    document.getElementById("changeBtn").innerHTML = "Trailer";
   }
 }
 export default Details;
