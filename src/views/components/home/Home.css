@@ -42,7 +42,7 @@ header div.container-fluid {
   width: 100%;
 }
 
-.center-text {
+.center {
   display: flex;
   justify-content: space-around;
 }

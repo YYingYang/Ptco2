@@ -6,7 +6,7 @@ class Home {
   render() {
     this.loadMovie();
     return `<br />
-    <h1 class="center-text" id="title">
+    <h1 class="center" id="title">
       Selezione dei film
     </h1>
     <!-- search bar and button -->
