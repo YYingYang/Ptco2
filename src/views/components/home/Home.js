@@ -46,16 +46,16 @@ class Home {
       });
   }
 
-  //  actionListener for button of details and search bar 
+  //  actionListener for button of details and search bar
   addActionListener() {
     document
       .getElementById("search-form")
       .addEventListener("submit", this.search.bind(this));
-      let temp = document.getElementById("list").children.length;
-      for (let i = 0; i < temp; i++)
-        document
-          .getElementById(`detailsBtn${i}`)
-          .addEventListener("click", this.showDetails.bind(this));
+    let temp = document.getElementById("list").children.length;
+    for (let i = 0; i < temp; i++)
+      document
+        .getElementById(`detailsBtn${i}`)
+        .addEventListener("click", this.showDetails.bind(this));
   }
 
   // insert card with movie data
@@ -71,8 +71,8 @@ class Home {
         <p class="card-text">${list[i].reduceChracter()}</p>
         <div class="btn-holder">
         <button id="detailsBtn${i}" class="btn btn-primary" value="${
-          list[i].id
-        }">Details</button>
+        list[i].id
+      }">Details</button>
         </div>
       </div>
       </div></div>`;
@@ -102,7 +102,7 @@ class Home {
     let path = event.target.value;
     history.pushState("details", "title 1", `/details/${path}`);
     window.dispatchEvent(new Event("popstate"));
-  } 
+  }
 }
 
 class Movie {
