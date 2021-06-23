@@ -1,11 +1,11 @@
 @import "views/components/navbar/Navbar.css";
+@import "views/components/details/Details.css";
 @import "views/components/home/Home.css";
 @import "views/components/footer/Footer.css";
 
 body {
   font-size: 0.875rem;
 }
-[role='main'] {
+[role="main"] {
   padding-top: 133px; /* Space for fixed navbar */
 }
-
