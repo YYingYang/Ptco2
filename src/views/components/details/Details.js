@@ -25,7 +25,7 @@ class Details {
         this.videoId = data.results[0].key;
         document.getElementById(
           "home-container"
-        ).innerHTML = `<div class="center-text">
+        ).innerHTML = `<div class="center">
           <div class="card mb-3" style="max-width:50%">
             <div class="row no-gutters">
               <div class="col-md-4">
@@ -35,17 +35,35 @@ class Details {
                 <div class="card-body">
                   <h5 class="card-title">${this.title}</h5>
                   <p class="card-text">${this.description}</p>
-                  <div class="btn-holder">
+                  <div>
                     <button id="backBtn" class="btn btn-primary" value="">Back</button>
-                    <button id="trailerBtn" class="btn btn-primary" value="">Trailer</button>
+                    <button id="trailerBtn" style="float:right" class="btn btn-primary" value="">Trailer</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>`;
+      this.addActionListener();
       });
-    //   console.log(this)
+  }
+
+  //  actionListener for button of details and search bar
+  addActionListener() {
+    document
+      .getElementById("backBtn")
+      .addEventListener("click", this.returnBack.bind(this));
+    document
+      .getElementById("trailerBtn")
+      .addEventListener("click", this.showDetails.bind(this));
+  }
+
+  returnBack(){
+    window.history.back()
+  }
+  
+  showDetails(){
+
   }
 }
 export default Details;
