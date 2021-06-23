@@ -27,7 +27,7 @@ class Details {
                   <h5 class="card-title">${this.title}</h5>
                   <p class="card-text" id="descriptionContainer">${this.description}</p>
                   <div>
-                    <button id="backBtn" class="btn btn-primary" >Back</button>
+                    <button id="backBtn" class="btn btn-primary" >Home</button>
                     <button id="changeBtn" style="float:right" value="1" class="btn btn-primary" value="">Trailer</button>
                   </div>
                 </div>
