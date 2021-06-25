@@ -2,3 +2,15 @@
   display: flex;
   justify-content: space-around;
 }
+
+.embed-responsive-16by9 {
+  padding-top: 0%;
+}
+
+.card-text {
+  margin-bottom: 0.25rem;
+}
+
+.card-title {
+  margin-bottom: 0.25rem;
+}
