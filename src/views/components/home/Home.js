@@ -52,10 +52,14 @@ class Home {
       .getElementById("search-form")
       .addEventListener("submit", this.search.bind(this));
     let temp = document.getElementById("list").children.length;
-    for (let i = 0; i < temp; i++)
+    for (let i = 0; i < temp; i++) {
       document
         .getElementById(`detailsBtn${i}`)
         .addEventListener("click", this.showDetails.bind(this));
+      document
+        .getElementById(`preferedIcon${i}`)
+        .addEventListener("click", this.showPrefered.bind(this));
+    }
   }
 
   // insert card with movie data
@@ -67,7 +71,12 @@ class Home {
         list[i].img
       } class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title">${list[i].title}</h5>
+        <h5 class="card-title">${list[i].title}
+          <p id="preferedIcon${i}" style="float:right; padding:0; margin:0; border:0" value="far">
+            <i class="far fa-heart" style="
+          "></i>
+          </p>
+        </h5>
         <p class="card-text">${list[i].reduceChracter()}</p>
         <div class="btn-holder">
         <button id="detailsBtn${i}" class="btn btn-primary" value="${
@@ -102,6 +111,32 @@ class Home {
     let path = event.target.value;
     history.pushState("details", "title 1", `/details/${path}`);
     window.dispatchEvent(new Event("popstate"));
+  }
+
+  showPrefered(event) {
+    /**
+     * @type {HTMLElement}
+     */
+
+    const btn = event.target;
+    console.log( btn.parentElement);
+    if(btn.attributes.getNamedItem("data-prefix").value==="far")
+      btn.setAttribute("data-prefix", "fas")
+    else
+      btn.setAttribute("data-prefix", "far")
+    // console.log( btn.attributes[2]);
+    // console.log(btn.attributes[2].value==="fas");
+    // const icon = document.getElementById(btn.id);
+    // console.log(JSON.stringify(icon.children));
+    // if (icon.value === "far") {
+    //   icon.innerHTML = '<i class="fas fa-heart"></i>';
+    //   icon.value = "fas";
+    // } else {
+    //   console.log("vuoto");
+    //   icon.innerHTML = '<i class="far fa-heart"></i>';
+    //   icon.value = "far";
+    // }
+    // console.log(icon);
   }
 }
 
