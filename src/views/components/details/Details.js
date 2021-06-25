@@ -27,7 +27,7 @@ class Details {
                   <h5 class="card-title">${this.title}</h5>
                   <p class="card-text" id="descriptionContainer">${this.description}</p>
                   <div>
-                    <button id="backBtn" class="btn btn-primary" >Home</button>
+                    <button id="homeBtn" class="btn btn-primary" >Home</button>
                     <button id="changeBtn" style="float:right" value="1" class="btn btn-primary" value="">Trailer</button>
                   </div>
                 </div>
@@ -35,22 +35,21 @@ class Details {
             </div>
           </div>
         </div>`;
-      });
-
-    // get video of the movie(trailer) and add actionListener
-    fetch(
-      `https://api.themoviedb.org/3/movie/${this.id}/videos?api_key=${this.key}&language=en`
-    )
-      .then((results) => results.json())
-      .then((data) => {
-        this.videoId = data.results[0].key;
-        this.addActionListener();
+        // get video of the movie(trailer) and add actionListener
+        fetch(
+          `https://api.themoviedb.org/3/movie/${this.id}/videos?api_key=${this.key}&language=en`
+        )
+          .then((results) => results.json())
+          .then((data) => {
+            this.videoId = data.results[0].key;
+            this.addActionListener();
+          });
       });
   }
 
   //  actionListener for button back and trailer
   addActionListener() {
-    document.getElementById("backBtn").addEventListener("click", () => {
+    document.getElementById("homeBtn").addEventListener("click", () => {
       window.history.back();
     });
     document.getElementById("changeBtn").addEventListener("click", () => {
