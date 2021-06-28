@@ -10,17 +10,18 @@ class Home {
       Selezione dei film
     </h1>
     <!-- search bar and button -->
-    <form class="d-flex" id="search-form">
+    <div class="d-flex" id="search-form">
       ${this.showSearch()}
-    </form>
+      <button id ="showPreferedBtn" class="btn btn-outline-success">Prefered</button>
+    </div>  
     <br />
-    <!-- list of film / result of reseach -->
+    <!-- list of movie / result of reseach -->
     <div id="list" class="row"></div>`;
   }
 
   showSearch() {
     return `<input id="search" class="form-control me-2" placeholder="Search" aria-label="Search"/>
-    <button class="btn btn-outline-success">Search</button>`;
+    <button id ="searchBtn" class="btn btn-outline-success">Search</button>`;
   }
 
   loadMovie() {
@@ -49,30 +50,37 @@ class Home {
   //  actionListener for button of details and search bar
   addActionListener() {
     document
-      .getElementById("search-form")
-      .addEventListener("submit", this.search.bind(this));
+      .getElementById("searchBtn")
+      .addEventListener("click", this.search.bind(this));
+    document
+      .getElementById("showPreferedBtn")
+      .addEventListener("click", this.showPreferedList.bind(this));
     let temp = document.getElementById("list").children.length;
     for (let i = 0; i < temp; i++) {
       document
         .getElementById(`detailsBtn${i}`)
         .addEventListener("click", this.showDetails.bind(this));
       document
-        .getElementById(`notSelected${i}`)
+        .getElementById(`preferedIcon${i}`)
         .addEventListener("click", this.showPrefered.bind(this));
     }
+  }
+
+  getMovie(){
+    console.log(document.getElementById("list").children)
   }
 
   // insert card with movie data
   displayCard(list) {
     let str = "";
-    for (let i = 0; i < list.length; i++)
+    for (let i = 0; i < list.length; i++) 
       str += `<div class="col-sm"><div class="card" >
       <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${
         list[i].img
       } class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">${list[i].title}
-          <button id="notSelected${i}" class="notSelected trasparent" style="float:right;">
+          <button id="preferedIcon${i}"  class="trasparent" style="float:right;">
           </button>
         </h5>
         <p class="card-text">${list[i].reduceChracter()}</p>
@@ -84,6 +92,7 @@ class Home {
       </div>
       </div></div>`;
     document.getElementById("list").innerHTML = str;
+    this.setPreferedClass(list);
     this.addActionListener();
   }
 
@@ -92,6 +101,7 @@ class Home {
     event.preventDefault();
     let str = document.getElementById("search").value;
     let temp = [];
+    // this.getMovie();
     for (let i = 0; i < this.list.length; i++) {
       if (this.list[i].title.toLowerCase().includes(str.toLowerCase()))
         temp.push(this.list[i]);
@@ -102,7 +112,7 @@ class Home {
       document.getElementById("list").innerHTML = "";
       this.displayCard(temp);
     }
-    document.getElementById("search").value = "";
+    // document.getElementById("search").value = "";
   }
 
   showDetails(event) {
@@ -111,19 +121,75 @@ class Home {
     window.dispatchEvent(new Event("popstate"));
   }
 
+  // set class of prefered icon
+  setPreferedClass(list) {
+    const local = window.localStorage.getItem("preferedMovie");
+    for (let i = 0; i < list.length; i++) {
+      if(local)
+        if (local.includes(list[i].id)) {
+          document.getElementById(`preferedIcon${i}`).classList.add("selected");
+        } else {
+          document
+            .getElementById(`preferedIcon${i}`)
+            .classList.add("notSelected");
+        }
+      else
+      document
+      .getElementById(`preferedIcon${i}`)
+      .classList.add("notSelected");
+    }
+  }
+
+  // change prefered icon
   showPrefered(event) {
     /**
      * @type {HTMLElement}
      */
-
-    let btn = event.target;
-    let no = btn.classList.contains("notSelected");
-    if (no) {
+    const btn = event.target;
+    const id = document.getElementById(
+      `detailsBtn${btn.id.split("preferedIcon")[1]}`
+    ).value;
+    if (btn.classList.contains("notSelected")) {
       btn.classList.remove("notSelected");
       btn.classList.add("selected");
+      this.addPreferedMovie(id);
     } else {
       btn.classList.remove("selected");
       btn.classList.add("notSelected");
+      this.removerPreferedMovie(id);
+    }
+  }
+
+  // show prefered movie list
+  showPreferedList(event) {
+    const idList = window.localStorage.getItem("preferedMovie").split(",");
+    let temp = []
+    for(let i=0; i<idList.length-1;i++){
+      for(let j=0; j< this.list.length ;j++)
+        if(idList[i]==this.list[j].id)
+          temp.push(this.list[j])
+    }
+    this.displayCard(temp)
+  }
+
+  // add id of movie in locale storage
+  addPreferedMovie(id) {
+    const key = "preferedMovie";
+    let str = window.localStorage.getItem(key);
+    id = id + ",";
+    if (!str) str = id;
+    else if (!str.includes(id)) str = str + id;
+    window.localStorage.setItem(key, str);
+  }
+
+  // remove id of movie in locale storage
+  removerPreferedMovie(id) {
+    const key = "preferedMovie";
+    let str = window.localStorage.getItem(key);
+    id = id + ",";
+    if (str.includes(id)) {
+      str = str.replace(id, "");
+      window.localStorage.setItem(key, str);
     }
   }
 }
