@@ -66,18 +66,13 @@ class Home {
     }
   }
 
-  getMovie(){
-    console.log(document.getElementById("list").children)
-  }
-
   // insert card with movie data
   displayCard(list) {
     let str = "";
-    for (let i = 0; i < list.length; i++) 
+    for (let i = 0; i < list.length; i++)
       str += `<div class="col-sm"><div class="card" >
-      <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${
-        list[i].img
-      } class="card-img-top" alt="...">
+      <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${list[i].img
+        } class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">${list[i].title}
           <button id="preferedIcon${i}"  class="trasparent" style="float:right;">
@@ -85,9 +80,8 @@ class Home {
         </h5>
         <p class="card-text">${list[i].reduceChracter()}</p>
         <div class="btn-holder">
-        <button id="detailsBtn${i}" class="btn btn-primary" value="${
-        list[i].id
-      }">Details</button>
+        <button id="detailsBtn${i}" class="btn btn-primary" value="${list[i].id
+        }">Details</button>
         </div>
       </div>
       </div></div>`;
@@ -101,7 +95,6 @@ class Home {
     event.preventDefault();
     let str = document.getElementById("search").value;
     let temp = [];
-    // this.getMovie();
     for (let i = 0; i < this.list.length; i++) {
       if (this.list[i].title.toLowerCase().includes(str.toLowerCase()))
         temp.push(this.list[i]);
@@ -125,7 +118,7 @@ class Home {
   setPreferedClass(list) {
     const local = window.localStorage.getItem("preferedMovie");
     for (let i = 0; i < list.length; i++) {
-      if(local)
+      if (local)
         if (local.includes(list[i].id)) {
           document.getElementById(`preferedIcon${i}`).classList.add("selected");
         } else {
@@ -134,9 +127,9 @@ class Home {
             .classList.add("notSelected");
         }
       else
-      document
-      .getElementById(`preferedIcon${i}`)
-      .classList.add("notSelected");
+        document
+          .getElementById(`preferedIcon${i}`)
+          .classList.add("notSelected");
     }
   }
 
@@ -164,9 +157,9 @@ class Home {
   showPreferedList(event) {
     const idList = window.localStorage.getItem("preferedMovie").split(",");
     let temp = []
-    for(let i=0; i<idList.length-1;i++){
-      for(let j=0; j< this.list.length ;j++)
-        if(idList[i]==this.list[j].id)
+    for (let i = 0; i < idList.length - 1; i++) {
+      for (let j = 0; j < this.list.length; j++)
+        if (idList[i] == this.list[j].id)
           temp.push(this.list[j])
     }
     this.displayCard(temp)
