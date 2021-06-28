@@ -57,7 +57,7 @@ class Home {
         .getElementById(`detailsBtn${i}`)
         .addEventListener("click", this.showDetails.bind(this));
       document
-        .getElementById(`preferedIcon${i}`)
+        .getElementById(`notSelected${i}`)
         .addEventListener("click", this.showPrefered.bind(this));
     }
   }
@@ -72,10 +72,8 @@ class Home {
       } class="card-img-top" alt="...">
       <div class="card-body">
         <h5 class="card-title">${list[i].title}
-          <p id="preferedIcon${i}" style="float:right; padding:0; margin:0; border:0" value="far">
-            <i class="far fa-heart" style="
-          "></i>
-          </p>
+          <button id="notSelected${i}" class="notSelected trasparent" style="float:right;">
+          </button>
         </h5>
         <p class="card-text">${list[i].reduceChracter()}</p>
         <div class="btn-holder">
@@ -118,25 +116,15 @@ class Home {
      * @type {HTMLElement}
      */
 
-    const btn = event.target;
-    console.log( btn.parentElement);
-    if(btn.attributes.getNamedItem("data-prefix").value==="far")
-      btn.setAttribute("data-prefix", "fas")
-    else
-      btn.setAttribute("data-prefix", "far")
-    // console.log( btn.attributes[2]);
-    // console.log(btn.attributes[2].value==="fas");
-    // const icon = document.getElementById(btn.id);
-    // console.log(JSON.stringify(icon.children));
-    // if (icon.value === "far") {
-    //   icon.innerHTML = '<i class="fas fa-heart"></i>';
-    //   icon.value = "fas";
-    // } else {
-    //   console.log("vuoto");
-    //   icon.innerHTML = '<i class="far fa-heart"></i>';
-    //   icon.value = "far";
-    // }
-    // console.log(icon);
+    let btn = event.target;
+    let no = btn.classList.contains("notSelected");
+    if (no) {
+      btn.classList.remove("notSelected");
+      btn.classList.add("selected");
+    } else {
+      btn.classList.remove("selected");
+      btn.classList.add("notSelected");
+    }
   }
 }
 
