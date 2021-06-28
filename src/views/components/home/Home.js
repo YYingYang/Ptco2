@@ -55,7 +55,7 @@ class Home {
     document
       .getElementById("showPreferedBtn")
       .addEventListener("click", this.showPreferedList.bind(this));
-    let temp = document.getElementById("list").children.length;
+    const temp = document.getElementById("list").children.length;
     for (let i = 0; i < temp; i++) {
       document
         .getElementById(`detailsBtn${i}`)
@@ -93,8 +93,8 @@ class Home {
   // craete a list of movie => result of search by title
   search(event) {
     event.preventDefault();
-    let str = document.getElementById("search").value;
-    let temp = [];
+    const str = document.getElementById("search").value;
+    const temp = [];
     for (let i = 0; i < this.list.length; i++) {
       if (this.list[i].title.toLowerCase().includes(str.toLowerCase()))
         temp.push(this.list[i]);
@@ -109,7 +109,7 @@ class Home {
   }
 
   showDetails(event) {
-    let path = event.target.value;
+    const path = event.target.value;
     history.pushState("details", "title 1", `/details/${path}`);
     window.dispatchEvent(new Event("popstate"));
   }
@@ -156,7 +156,7 @@ class Home {
   // show prefered movie list
   showPreferedList(event) {
     const idList = window.localStorage.getItem("preferedMovie").split(",");
-    let temp = []
+    const temp = []
     for (let i = 0; i < idList.length - 1; i++) {
       for (let j = 0; j < this.list.length; j++)
         if (idList[i] == this.list[j].id)
@@ -168,20 +168,18 @@ class Home {
   // add id of movie in locale storage
   addPreferedMovie(id) {
     const key = "preferedMovie";
-    let str = window.localStorage.getItem(key);
-    id = id + ",";
+    const str = window.localStorage.getItem(key);
     if (!str) str = id;
-    else if (!str.includes(id)) str = str + id;
+    else if (!str.includes(id)) str = str + id + ",";
     window.localStorage.setItem(key, str);
   }
 
   // remove id of movie in locale storage
   removerPreferedMovie(id) {
     const key = "preferedMovie";
-    let str = window.localStorage.getItem(key);
-    id = id + ",";
+    const str = window.localStorage.getItem(key);
     if (str.includes(id)) {
-      str = str.replace(id, "");
+      str = str.replace(id + ",", "");
       window.localStorage.setItem(key, str);
     }
   }

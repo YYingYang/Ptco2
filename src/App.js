@@ -50,7 +50,7 @@ class App {
       this.home.render() +
       "</div>" +
       this.footer.render();
-    window.onpopstate = (event) => {
+    window.onpopstate = () => {
       if (document.location.pathname.split("/")[1] === "") {
         document.getElementById("home-container").innerHTML =
           this.home.render();
