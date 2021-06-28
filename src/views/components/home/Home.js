@@ -7,7 +7,7 @@ class Home {
     this.loadMovie();
     return `<br />
     <h1 class="center" id="title">
-      Selezione dei film
+      Selection of Movie
     </h1>
     <!-- search bar and button -->
     <div class="d-flex" id="search-form">

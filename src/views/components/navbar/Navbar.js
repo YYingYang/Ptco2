@@ -5,8 +5,8 @@ class Navbar {
       <img src="./src/assets/logo.png" alt="" class="logo" />
       <p>
         Cinema
-        <button type="button" class="btn btn-secondary">Accedi</button>
-        <button type="button" class="btn btn-secondary">Registrati</button>
+        <button type="button" class="btn btn-secondary">Access</button>
+        <button type="button" class="btn btn-secondary">Registrer</button>
       </p>
     </div>
   </header>`;
