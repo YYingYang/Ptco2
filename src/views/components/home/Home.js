@@ -168,19 +168,19 @@ class Home {
   // add id of movie in locale storage
   addPreferedMovie(id) {
     const key = "preferedMovie";
-    const str = window.localStorage.getItem(key);
-    if (!str) str = id;
-    else if (!str.includes(id)) str = str + id + ",";
-    window.localStorage.setItem(key, str);
+    let str = JSON.parse(window.localStorage.getItem(key));
+    if (!str) str = [id];
+    else if (!str.includes(id)) str.push(id);
+    window.localStorage.setItem(key, JSON.stringify(str));
   }
 
   // remove id of movie in locale storage
   removerPreferedMovie(id) {
     const key = "preferedMovie";
-    const str = window.localStorage.getItem(key);
-    if (str.includes(id)) {
-      str = str.replace(id + ",", "");
-      window.localStorage.setItem(key, str);
+    const str = JSON.parse(window.localStorage.getItem(key));
+    if (str.indexOf(id) != -1) {
+      str.splice(str.indexOf(id), 1);
+      window.localStorage.setItem(key, JSON.stringify(str));
     }
   }
 }
