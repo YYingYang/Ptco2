@@ -32,17 +32,16 @@ class Home {
       .then((results) => results.json())
       .then((data) => {
         this.list = [];
-        for (var i = 0; i < data.results.length; i++) {
+        data.results.forEach(element => {
           this.list.push(
             new Movie(
-              data.results[i].original_title,
-              data.results[i].overview,
-              data.results[i].poster_path,
-              data.results[i].id,
-              i
+              element.original_title,
+              element.overview,
+              element.poster_path,
+              element.id,
             )
-          );
-        }
+          )
+        });
         this.displayCard(this.list);
       });
   }
@@ -55,8 +54,7 @@ class Home {
     document
       .getElementById("showPreferedBtn")
       .addEventListener("click", this.showPreferedList.bind(this));
-    const temp = document.getElementById("list").children.length;
-    for (let i = 0; i < temp; i++) {
+    for (let i = 0; i < document.getElementById("list").children.length; i++) {
       document
         .getElementById(`detailsBtn${i}`)
         .addEventListener("click", this.showDetails.bind(this));
@@ -69,22 +67,23 @@ class Home {
   // insert card with movie data
   displayCard(list) {
     let str = "";
-    for (let i = 0; i < list.length; i++)
+    list.forEach((element, index) => {
       str += `<div class="col-sm"><div class="card" >
-      <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${list[i].img
+      <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${element.img
         } class="card-img-top" alt="...">
       <div class="card-body">
-        <h5 class="card-title">${list[i].title}
-          <button id="preferedIcon${i}"  class="trasparent" style="float:right;">
+        <h5 class="card-title">${element.title}
+          <button id="preferedIcon${index}"  class="trasparent" style="float:right;">
           </button>
         </h5>
-        <p class="card-text">${list[i].reduceChracter()}</p>
+        <p class="card-text">${element.reduceChracter()}</p>
         <div class="btn-holder">
-        <button id="detailsBtn${i}" class="btn btn-primary" value="${list[i].id
+        <button id="detailsBtn${index}" class="btn btn-primary" value="${element.id
         }">Details</button>
         </div>
       </div>
       </div></div>`;
+    });
     document.getElementById("list").innerHTML = str;
     this.setPreferedClass(list);
     this.addActionListener();
@@ -95,10 +94,10 @@ class Home {
     event.preventDefault();
     const str = document.getElementById("search").value;
     const temp = [];
-    for (let i = 0; i < this.list.length; i++) {
-      if (this.list[i].title.toLowerCase().includes(str.toLowerCase()))
-        temp.push(this.list[i]);
-    }
+    this.list.forEach(element => {
+      if (element.title.toLowerCase().includes(str.toLowerCase()))
+        temp.push(element);
+    })
     if (temp.length == 0)
       document.getElementById("list").innerHTML = "Nothing found";
     else {
@@ -117,9 +116,9 @@ class Home {
   // set class of prefered icon
   setPreferedClass(list) {
     const local = window.localStorage.getItem("preferedMovie");
-    for (let i = 0; i < list.length; i++) {
+    list.forEach((element, i) => {
       if (local)
-        if (local.includes(list[i].id)) {
+        if (local.includes(element.id)) {
           document.getElementById(`preferedIcon${i}`).classList.add("selected");
         } else {
           document
@@ -130,7 +129,8 @@ class Home {
         document
           .getElementById(`preferedIcon${i}`)
           .classList.add("notSelected");
-    }
+    })
+
   }
 
   // change prefered icon
@@ -155,13 +155,14 @@ class Home {
 
   // show prefered movie list
   showPreferedList(event) {
-    const idList = window.localStorage.getItem("preferedMovie").split(",");
-    const temp = []
-    for (let i = 0; i < idList.length - 1; i++) {
-      for (let j = 0; j < this.list.length; j++)
-        if (idList[i] == this.list[j].id)
-          temp.push(this.list[j])
-    }
+    const idList = JSON.parse(window.localStorage.getItem("preferedMovie"));
+    const temp = [];
+    idList.forEach(id => {
+      this.list.forEach(element => {
+        if (id == element.id)
+          temp.push(element)
+      })
+    })
     this.displayCard(temp)
   }
 
@@ -186,12 +187,11 @@ class Home {
 }
 
 class Movie {
-  constructor(title, description, img, id, pos) {
+  constructor(title, description, img, id) {
     this.title = title;
     this.description = description;
     this.img = img;
     this.id = id;
-    this.pos = pos;
   }
   movieToString() {
     let str =
