@@ -4,8 +4,14 @@ class Details {
   }
   render() {
     this.id = document.location.pathname.split("/")[2];
+    return `<div class="center">
+      <div id="details-container" class="card mb-3" style="max-width:50%">
+      </div>
+    </div>`;
+  }
 
-    // get from site information about the movie you want know
+  loadData(){
+  // get from site information about the movie you want know
     fetch(
       `https://api.themoviedb.org/3/movie/${this.id}?api_key=${this.key}&language=en`
     )
@@ -15,22 +21,20 @@ class Details {
         this.description = data.overview;
         this.img = data.poster_path;
         document.getElementById(
-          "home-container"
-        ).innerHTML = `<div class="center">
-          <div class="card mb-3" style="max-width:50%">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${this.img} class="img-fluid" alt="...">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">${this.title}</h5>
-                  <p class="card-text" id="descriptionContainer">${this.description}</p>
-                  <div>
-                    <button id="homeBtn" class="btn btn-primary" >Home</button>
-                    <button id="changeBtn" style="float:right" value="1" class="btn btn-primary" value="">Trailer</button>
-                  </div>
-                </div>
+          "details-container"
+        ).innerHTML = `
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src=https://www.themoviedb.org/t/p/w600_and_h900_bestv2${this.img} class="img-fluid" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">${this.title}</h5>
+              <p class="card-text" id="descriptionContainer">${this.description}</p>
+              <div>
+                <button id="homeBtn" class="btn btn-primary" >Back to Home</button>
+                <button id="trailerBtn" class="btn btn-primary detailsBtn">Trailer</button>
+                <button id="descriptionBtn" class="btn btn-primary detailsBtn" disabled>Description</button>
               </div>
             </div>
           </div>
@@ -52,10 +56,11 @@ class Details {
     document.getElementById("homeBtn").addEventListener("click", () => {
       window.history.back();
     });
-    document.getElementById("changeBtn").addEventListener("click", () => {
-      document.getElementById("changeBtn").value === "1"
-        ? this.renderTrailer()
-        : this.renderDescription();
+    document.getElementById("trailerBtn").addEventListener("click", () => {
+      this.renderTrailer();
+    });
+    document.getElementById("descriptionBtn").addEventListener("click", () => {
+      this.renderDescription();
     });
   }
 
@@ -65,15 +70,16 @@ class Details {
     ).innerHTML = `<div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${this.videoId}" allowfullscreen></iframe>
         </div>`;
-    document.getElementById("changeBtn").value = "2";
-    document.getElementById("changeBtn").innerHTML = "Description";
+    document.getElementById("trailerBtn").disabled=true;
+    document.getElementById("descriptionBtn").disabled=false;
   }
 
   renderDescription() {
+    console.log("2");
     document.getElementById("descriptionContainer").innerHTML =
       this.description;
-    document.getElementById("changeBtn").value = "1";
-    document.getElementById("changeBtn").innerHTML = "Trailer";
+    document.getElementById("descriptionBtn").disabled=true;
+    document.getElementById("trailerBtn").disabled=false;
   }
 }
 export default Details;
