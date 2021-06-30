@@ -2,6 +2,7 @@ class Details {
   constructor() {
     this.key = "c4d79d0d1e50bf8bc86b7afbd240e4df";
   }
+
   render() {
     this.id = document.location.pathname.split("/")[2];
     return `<div class="center">
@@ -10,8 +11,8 @@ class Details {
     </div>`;
   }
 
-  loadData(){
-  // get from site information about the movie you want know
+  loadData() {
+    // get from site information about the movie you want know
     fetch(
       `https://api.themoviedb.org/3/movie/${this.id}?api_key=${this.key}&language=en`
     )
@@ -70,16 +71,16 @@ class Details {
     ).innerHTML = `<div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${this.videoId}" allowfullscreen></iframe>
         </div>`;
-    document.getElementById("trailerBtn").disabled=true;
-    document.getElementById("descriptionBtn").disabled=false;
+    document.getElementById("trailerBtn").disabled = true;
+    document.getElementById("descriptionBtn").disabled = false;
   }
 
   renderDescription() {
     console.log("2");
     document.getElementById("descriptionContainer").innerHTML =
       this.description;
-    document.getElementById("descriptionBtn").disabled=true;
-    document.getElementById("trailerBtn").disabled=false;
+    document.getElementById("descriptionBtn").disabled = true;
+    document.getElementById("trailerBtn").disabled = false;
   }
 }
 export default Details;
