@@ -50,13 +50,21 @@ class App {
       this.home.render() +
       "</div>" +
       this.footer.render();
+    this.home.loadData();
+    this.addEventListener();
+  }
+
+  addEventListener(){
     window.onpopstate = () => {
       if (document.location.pathname.split("/")[1] === "") {
         document.getElementById("home-container").innerHTML =
           this.home.render();
+        this.home.loadData();
       }
       if (document.location.pathname.split("/")[1] === "details") {
-        this.details.render();
+        document.getElementById("home-container").innerHTML =
+          this.details.render();
+        this.details.loadData();
       }
     };
   }
