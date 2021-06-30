@@ -4,7 +4,6 @@ class Home {
   }
 
   render() {
-    this.loadMovie();
     return `<br />
     <h1 class="center" id="title">
       Selection of Movie
@@ -19,6 +18,10 @@ class Home {
     <div id="list" class="row"></div>`;
   }
 
+  loadData(){
+    this.loadMovie();
+  }
+
   showSearch() {
     return `<input id="search" class="form-control me-2" placeholder="Search" aria-label="Search"/>
     <button id ="searchBtn" class="btn btn-outline-success">Search</button>`;
@@ -26,7 +29,7 @@ class Home {
 
   loadMovie() {
     //request to the site for the movies data/list
-    const req = fetch(
+    fetch(
       `https://api.themoviedb.org/3/movie/popular?api_key=${this.key}&language=en&page=1`
     )
       .then((results) => results.json())
