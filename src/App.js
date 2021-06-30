@@ -49,23 +49,20 @@ class App {
     this.app.innerHTML =
       this.navbar.render() +
       '<div id="home-container">' +
-      this.route.get("").render() +
+      // this.route.get("").render() +
       "</div>" +
       this.footer.render();
-    this.route.get("").loadData();
+    // this.route.get("").loadData();
     this.addEventListener();
-    // window.dispatchEvent(new Event("popstate"));
+    window.dispatchEvent(new Event("popstate"));
   }
 
   addEventListener() {
     window.onpopstate = () => {
-      const path = document.location.pathname.split("/")[1]
-      console.log(path);
+      const path = document.location.pathname.split("/")[1];
       if (this.route.has(path)) {
         document.getElementById("home-container").innerHTML = this.route.get(path).render();
-        console.log("fine render");
         this.route.get(path).loadData();
-        console.log("fine carica");
       }
     };
   }
