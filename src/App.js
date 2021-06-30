@@ -9,10 +9,12 @@ import "./App.css";
 
 class App {
   constructor() {
-    this.home = new Home();
+    this.route = new Map([
+      ['', new Home()],
+      ['details', new Details()]
+    ]);
     this.navbar = new Navbar();
     this.footer = new Footer();
-    this.details = new Details();
     this.init();
   }
 
@@ -47,24 +49,23 @@ class App {
     this.app.innerHTML =
       this.navbar.render() +
       '<div id="home-container">' +
-      this.home.render() +
+      this.route.get("").render() +
       "</div>" +
       this.footer.render();
-    this.home.loadData();
+    this.route.get("").loadData();
     this.addEventListener();
+    // window.dispatchEvent(new Event("popstate"));
   }
 
-  addEventListener(){
+  addEventListener() {
     window.onpopstate = () => {
-      if (document.location.pathname.split("/")[1] === "") {
-        document.getElementById("home-container").innerHTML =
-          this.home.render();
-        this.home.loadData();
-      }
-      if (document.location.pathname.split("/")[1] === "details") {
-        document.getElementById("home-container").innerHTML =
-          this.details.render();
-        this.details.loadData();
+      const path = document.location.pathname.split("/")[1]
+      console.log(path);
+      if (this.route.has(path)) {
+        document.getElementById("home-container").innerHTML = this.route.get(path).render();
+        console.log("fine render");
+        this.route.get(path).loadData();
+        console.log("fine carica");
       }
     };
   }
