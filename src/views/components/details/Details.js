@@ -6,7 +6,7 @@ class Details {
   render() {
     this.id = document.location.pathname.split("/")[2];
     return `<div class="center">
-      <div id="details-container" class="card mb-3" style="max-width:50%">
+      <div id="details-container" class="card mb-3" style="width:50%">
       </div>
     </div>`;
   }
