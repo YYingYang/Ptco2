@@ -3,16 +3,13 @@ import Navbar from "./views/components/navbar/Navbar";
 import Home from "./views/components/home/Home";
 import Footer from "./views/components/footer/Footer";
 import Details from "./views/components/details/Details";
+import Route from "./route";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 class App {
   constructor() {
-    this.route = new Map([
-      ['', new Home()],
-      ['details', new Details()]
-    ]);
     this.navbar = new Navbar();
     this.footer = new Footer();
     this.init();
@@ -49,10 +46,10 @@ class App {
     this.app.innerHTML =
       this.navbar.render() +
       '<div id="home-container">' +
-      // this.route.get("").render() +
+      // Route.get("").render() +
       "</div>" +
       this.footer.render();
-    // this.route.get("").loadData();
+    // Route.get("").loadData();
     this.addEventListener();
     window.dispatchEvent(new Event("popstate"));
   }
@@ -60,9 +57,11 @@ class App {
   addEventListener() {
     window.onpopstate = () => {
       const path = document.location.pathname.split("/")[1];
-      if (this.route.has(path)) {
-        document.getElementById("home-container").innerHTML = this.route.get(path).render();
-        this.route.get(path).loadData();
+      console.log(path);
+      if (Route.has(path)) {
+        const element =new (Route.get(path))();
+        document.getElementById("home-container").innerHTML =element.render();
+        element.loadData();
       }
     };
   }
