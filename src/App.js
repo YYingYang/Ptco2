@@ -57,7 +57,6 @@ class App {
   addEventListener() {
     window.onpopstate = () => {
       const path = document.location.pathname.split("/")[1];
-      console.log(path);
       if (Route.has(path)) {
         const element =new (Route.get(path))();
         document.getElementById("home-container").innerHTML =element.render();
